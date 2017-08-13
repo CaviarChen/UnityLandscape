@@ -21,9 +21,19 @@ public class CameraControl : MonoBehaviour {
 
 
 		// mouse
+
 		float yaw = mouseSensitivitiy * Input.GetAxis("Mouse X");
 		float pitch = -mouseSensitivitiy * Input.GetAxis("Mouse Y");
-		transform.eulerAngles += new Vector3(pitch, yaw, 0.0f);
+		yaw += transform.eulerAngles.y;
+		pitch += transform.eulerAngles.x;
+
+
+		// pitch should be 0~90 or 270~360
+		pitch = (pitch<=180.0f) ? Mathf.Min (90.0f, pitch) : Mathf.Max(pitch,270.0f);
+
+		transform.eulerAngles = new Vector3(pitch, yaw, 0.0f);
+
+
 
 
 		if (Input.GetKey (KeyCode.W)) {
