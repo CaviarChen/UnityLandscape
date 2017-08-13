@@ -8,6 +8,7 @@ public class CameraControl : MonoBehaviour {
 
 	public float mouseSensitivitiy = 5.0f;
 	public float moveSpeed = 4.0f;
+	public float rollSpeed = 100.0f;
 
 	// Use this for initialization
 	void Start () {
@@ -31,8 +32,16 @@ public class CameraControl : MonoBehaviour {
 		// pitch should be 0~90 or 270~360
 		pitch = (pitch<=180.0f) ? Mathf.Min (90.0f, pitch) : Mathf.Max(pitch,270.0f);
 
-		transform.eulerAngles = new Vector3(pitch, yaw, 0.0f);
+		float roll = transform.eulerAngles.z;
 
+		if (Input.GetKey (KeyCode.Q)) {
+			roll += rollSpeed * Time.deltaTime;
+		}
+		if (Input.GetKey (KeyCode.E)) {
+			roll -= rollSpeed * Time.deltaTime;
+		}
+
+		transform.eulerAngles = new Vector3(pitch, yaw, roll);
 
 
 
