@@ -212,10 +212,8 @@ public class TerrainGenerator : MonoBehaviour {
 
 		for (int i = 0; i < colors.Length; i++) {
 			if (mesh.vertices [i].y <= heightAvg) {
-				print ("A");
 				colors [i] = grass;
 			}else if(mesh.vertices[i].y > heightAvg){
-				print ("B");
 				colors [i] = mountain;
 			}
 		}
