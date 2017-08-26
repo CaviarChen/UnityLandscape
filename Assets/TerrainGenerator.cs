@@ -13,13 +13,19 @@ public class TerrainGenerator : MonoBehaviour {
 
 	public Shader shader;
 
+	public GameObject waterObject;
+
 	private float heightMin, heightMax, heightAvg;
 
 	private float[,] heightMap;
 
 	// Use this for initialization
 	void Start () {
+		
 		GenerateHeightMap ();
+
+
+
 
 		MeshFilter terrainMesh = this.gameObject.AddComponent<MeshFilter> ();
 		terrainMesh.mesh = GenerateMesh ();
@@ -27,8 +33,66 @@ public class TerrainGenerator : MonoBehaviour {
 		MeshRenderer renderer = this.gameObject.AddComponent<MeshRenderer> ();
 		renderer.material.shader = shader;
 
+		MeshFilter seaMesh = waterObject.AddComponent<MeshFilter> ();
+		seaMesh.mesh = GenerateSea ();
+
+		MeshRenderer seaRenderer = waterObject.AddComponent<MeshRenderer> ();
+		seaRenderer.material.shader = shader;
 		
 	}
+
+
+// TO-DO:
+// make sure that the terrain is surrounding by sea
+//	void applyFalloffMap() {
+//
+//		for (int x = 0; x < size; x++) {
+//			for (int z = 0; z < size; z++) {
+//				float center = (size - 1) / 2;
+//				float distanceToCenter = Mathf.Sqrt ((x - center) * (x - center) + (y - center) * (y - center));
+//
+//				// center should be 0 and the corner should be -heightRange;
+//
+//
+//
+//				
+//			}
+//		}
+//	
+//	}
+
+	Mesh GenerateSea() {
+		Mesh mesh = new Mesh();
+
+		float seaLevel = heightAvg - (heightMax - heightMin) * 0.2f;
+
+
+
+
+		Vector3[] mVertices = new Vector3[4];
+		mVertices [0] = new Vector3 (0, seaLevel, 0);
+		mVertices [1] = new Vector3 (0, seaLevel, unitSize*(size-1));
+		mVertices [2] = new Vector3 (unitSize*(size-1), seaLevel, 0);
+		mVertices [3] = new Vector3 (unitSize*(size-1), seaLevel, unitSize*(size-1));
+
+		int[] mTriangles = new int[6];
+
+		mTriangles [0] = 0;
+		mTriangles [1] = 3;
+		mTriangles [2] = 2;
+
+		mTriangles [3] = 0;
+		mTriangles [4] = 1;
+		mTriangles [5] = 3;
+
+		mesh.vertices = mVertices;
+		mesh.triangles = mTriangles;
+		mesh.RecalculateBounds ();
+		mesh.RecalculateNormals ();
+
+		return mesh;
+	}
+
 
 	bool inRange(int x, int z) {
 		return (x >= 0) && (z >= 0) && (x < size) && (z < size);
@@ -194,7 +258,6 @@ public class TerrainGenerator : MonoBehaviour {
 
 
 		mesh.vertices = mVertices;
-		//mesh.uv = mUVs;
 		mesh.triangles = mTriangles;
 		mesh.RecalculateBounds ();
 		mesh.RecalculateNormals ();
