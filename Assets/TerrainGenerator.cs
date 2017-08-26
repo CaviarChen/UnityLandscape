@@ -3,17 +3,30 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class TerrainGenerator : MonoBehaviour {
+	public Color snow, tree, grass, mountain;
+
+
 	public int size = 17; // 2^4+1
 	public float unitSize;
 	public float heightRange;
 	public float smoothness = 1.7f;
+
+	public Shader shader;
+
+	private float heightMin, heightMax, heightAvg;
 
 	private float[,] heightMap;
 
 	// Use this for initialization
 	void Start () {
 		GenerateHeightMap ();
-		GetComponent<MeshFilter> ().mesh = GenerateMesh ();
+
+		MeshFilter terrainMesh = this.gameObject.AddComponent<MeshFilter> ();
+		terrainMesh.mesh = GenerateMesh ();
+
+		MeshRenderer renderer = this.gameObject.AddComponent<MeshRenderer> ();
+		renderer.material.shader = shader;
+
 		
 	}
 
@@ -127,15 +140,29 @@ public class TerrainGenerator : MonoBehaviour {
 
 
 		int counter = 0;
+		float min = 0, max=0, sum=0;
 		for (int x = 0; x < size; x++) {
 			for (int z = 0; z < size; z++) {
-				
+				if (heightMap [x, z] < min) {
+					min = heightMap [x, z];
+				}
+
+				if(heightMap [x, z] > max){
+					max = heightMap [x, z];
+				}
+
+				sum += heightMap [x, z];
+
 				mVertices[counter] = new Vector3(x * unitSize, heightMap[x, z], z * unitSize);
 
 				counter++;
 			}
 		}
-			
+
+		heightAvg = (float)sum / (size * size);
+		heightMin = min;
+		heightMax = max;
+
 		int[] mTriangles = new int[(size - 1) * (size - 1) * 2 * 3];
 
 		counter = 0;
@@ -171,13 +198,30 @@ public class TerrainGenerator : MonoBehaviour {
 		mesh.triangles = mTriangles;
 		mesh.RecalculateBounds ();
 		mesh.RecalculateNormals ();
-
+		Coloring (mesh);
 		return mesh;
 		
 	}
 
 
+	void Coloring(Mesh mesh){
+		
 
+
+		Color[] colors = new Color[mesh.vertices.Length];
+
+		for (int i = 0; i < colors.Length; i++) {
+			if (mesh.vertices [i].y <= heightAvg) {
+				print ("A");
+				colors [i] = grass;
+			}else if(mesh.vertices[i].y > heightAvg){
+				print ("B");
+				colors [i] = mountain;
+			}
+		}
+
+		mesh.colors = colors;
+	}
 
 
 	

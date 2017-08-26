@@ -193,8 +193,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 559437869}
-  - component: {fileID: 559437868}
-  - component: {fileID: 559437867}
   - component: {fileID: 559437866}
   m_Layer: 0
   m_Name: Terrain
@@ -214,49 +212,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7d73fbc3f22c4edbb463ec1e6082528, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  snow: {r: 0.7490196, g: 0.8, b: 0.8509804, a: 1}
+  tree: {r: 0.7607844, g: 0.7607844, b: 0.7607844, a: 1}
+  grass: {r: 0.57254905, g: 0.7568628, b: 0.4431373, a: 1}
+  mountain: {r: 0.22352941, g: 0.22745098, b: 0.25490198, a: 1}
   size: 65
   unitSize: 0.5
   heightRange: 15
   smoothness: 1.7
---- !u!23 &559437867
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 559437865}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_Materials:
-  - {fileID: 2100000, guid: 9b8caaf5447bb47a3b06faef64d79881, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
---- !u!33 &559437868
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 559437865}
-  m_Mesh: {fileID: 0}
+  shader: {fileID: 4800000, guid: e77665b83de5c479d9d2fc2db3645f0c, type: 3}
 --- !u!4 &559437869
 Transform:
   m_ObjectHideFlags: 0
@@ -461,7 +425,7 @@ MeshRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1894720419}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 0
   m_MotionVectors: 1
