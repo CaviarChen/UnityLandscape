@@ -12,12 +12,16 @@ public class TerrainGenerator : MonoBehaviour {
 	public float smoothness = 1.7f;
 
 	public Shader shader;
+	public Sun sun;
 
 	public GameObject waterObject;
 
 	private float heightMin, heightMax, heightAvg;
 
 	private float[,] heightMap;
+
+	private Rigidbody rbody;
+
 
 	// Use this for initialization
 	void Start () {
@@ -33,12 +37,16 @@ public class TerrainGenerator : MonoBehaviour {
 		MeshRenderer renderer = this.gameObject.AddComponent<MeshRenderer> ();
 		renderer.material.shader = shader;
 
+<<<<<<< Updated upstream
 		MeshFilter seaMesh = waterObject.AddComponent<MeshFilter> ();
 		seaMesh.mesh = GenerateSea ();
 
 		MeshRenderer seaRenderer = waterObject.AddComponent<MeshRenderer> ();
 		seaRenderer.material.shader = shader;
 		
+=======
+		rbody = GetComponent<Rigidbody> ();
+>>>>>>> Stashed changes
 	}
 
 
@@ -288,6 +296,10 @@ public class TerrainGenerator : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
+		MeshRenderer renderer = this.gameObject.GetComponent<MeshRenderer>();
+		renderer.material.SetColor ("_PointLightColor", this.sun.color);
+		renderer.material.SetVector ("_PointLightPosition", this.sun.GetPointLightPosition());
+
+
 	}
 }
