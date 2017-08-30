@@ -25,7 +25,7 @@ public class TerrainGenerator : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		
+
 		GenerateHeightMap ();
 
 
@@ -37,16 +37,14 @@ public class TerrainGenerator : MonoBehaviour {
 		MeshRenderer renderer = this.gameObject.AddComponent<MeshRenderer> ();
 		renderer.material.shader = shader;
 
-<<<<<<< Updated upstream
 		MeshFilter seaMesh = waterObject.AddComponent<MeshFilter> ();
 		seaMesh.mesh = GenerateSea ();
 
 		MeshRenderer seaRenderer = waterObject.AddComponent<MeshRenderer> ();
 		seaRenderer.material.shader = shader;
-		
-=======
+
 		rbody = GetComponent<Rigidbody> ();
->>>>>>> Stashed changes
+
 	}
 
 
@@ -63,10 +61,10 @@ public class TerrainGenerator : MonoBehaviour {
 //
 //
 //
-//				
+//
 //			}
 //		}
-//	
+//
 //	}
 
 	Mesh GenerateSea() {
@@ -156,12 +154,12 @@ public class TerrainGenerator : MonoBehaviour {
 
 				}
 			}
-				
+
 
 			// Square
 			for (int x = 0; x < size; x += half) {
 				for (int z = 0; z < size; z += half) {
-					if (!isSet[x,z]) { 
+					if (!isSet[x,z]) {
 
 						// haven't benn computed in diamond step
 						float tmp = 0;
@@ -189,7 +187,7 @@ public class TerrainGenerator : MonoBehaviour {
 						isSet [x, z] = true;
 
 					}
-					
+
 
 				}
 			}
@@ -271,12 +269,12 @@ public class TerrainGenerator : MonoBehaviour {
 		mesh.RecalculateNormals ();
 		Coloring (mesh);
 		return mesh;
-		
+
 	}
 
 
 	void Coloring(Mesh mesh){
-		
+
 
 
 		Color[] colors = new Color[mesh.vertices.Length];
@@ -293,7 +291,7 @@ public class TerrainGenerator : MonoBehaviour {
 	}
 
 
-	
+
 	// Update is called once per frame
 	void Update () {
 		MeshRenderer renderer = this.gameObject.GetComponent<MeshRenderer>();
