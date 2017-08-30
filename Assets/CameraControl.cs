@@ -10,11 +10,15 @@ public class CameraControl : MonoBehaviour {
 	public float moveSpeed = 4.0f;
 	public float rollSpeed = 100.0f;
 
+	private Rigidbody rbody;
+
 	// Use this for initialization
 	void Start () {
 		Cursor.visible = false;
 		Cursor.lockState = CursorLockMode.Locked;
 
+		rbody = GetComponent<Rigidbody> ();
+		rbody.freezeRotation = true;
 	}
 	
 	// Update is called once per frame
@@ -47,17 +51,19 @@ public class CameraControl : MonoBehaviour {
 
 		if (Input.GetKey (KeyCode.W)) {
 			transform.position += transform.forward * moveSpeed * Time.deltaTime;
+			rbody.AddForce (transform.forward * moveSpeed * Time.deltaTime);
 		}
 		if (Input.GetKey (KeyCode.S)) {
 			transform.position -= transform.forward * moveSpeed * Time.deltaTime;
+			rbody.AddForce (-(transform.forward * moveSpeed * Time.deltaTime));
 		}
 		if (Input.GetKey (KeyCode.A)) {
 			transform.position -= transform.right * moveSpeed * Time.deltaTime;
+			rbody.AddForce (-(transform.forward * moveSpeed * Time.deltaTime));
 		}
 		if (Input.GetKey (KeyCode.D)) {
 			transform.position += transform.right * moveSpeed * Time.deltaTime;
+			rbody.AddForce (transform.forward * moveSpeed * Time.deltaTime);
 		}
-
-		
 	}
 }

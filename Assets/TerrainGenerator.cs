@@ -52,6 +52,7 @@ public class TerrainGenerator : MonoBehaviour {
 
 
 		rbody = GetComponent<Rigidbody> ();
+		GetComponent<MeshCollider> ().sharedMesh = terrainMesh.mesh;
 
 	}
 

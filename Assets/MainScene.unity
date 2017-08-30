@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 184253330}
-  m_IndirectSpecularColor: {r: 0.5506664, g: 0.608778, b: 0.6801981, a: 1}
+  m_IndirectSpecularColor: {r: 0.5506665, g: 0.60877925, b: 0.68019825, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -195,6 +195,7 @@ GameObject:
   m_Component:
   - component: {fileID: 559437869}
   - component: {fileID: 559437866}
+  - component: {fileID: 559437867}
   m_Layer: 0
   m_Name: Terrain
   m_TagString: Untagged
@@ -225,6 +226,20 @@ MonoBehaviour:
   shader: {fileID: 4800000, guid: e77665b83de5c479d9d2fc2db3645f0c, type: 3}
   sun: {fileID: 184253332}
   waterObject: {fileID: 1766806392}
+--- !u!64 &559437867
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 559437865}
+  m_Material: {fileID: 13400000, guid: f3e69a016cea048daaf57e04afcd5837, type: 2}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Convex: 1
+  m_InflateMesh: 1
+  m_SkinWidth: 0.01
+  m_Mesh: {fileID: 0}
 --- !u!4 &559437869
 Transform:
   m_ObjectHideFlags: 0
@@ -367,6 +382,8 @@ GameObject:
   - component: {fileID: 1894720421}
   - component: {fileID: 1894720420}
   - component: {fileID: 1894720424}
+  - component: {fileID: 1894720425}
+  - component: {fileID: 1894720426}
   m_Layer: 0
   m_Name: Camera Cube
   m_TagString: Untagged
@@ -382,7 +399,7 @@ MeshRenderer:
   m_GameObject: {fileID: 1894720419}
   m_Enabled: 0
   m_CastShadows: 1
-  m_ReceiveShadows: 0
+  m_ReceiveShadows: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -412,9 +429,9 @@ BoxCollider:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1894720419}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 7e5c5980180d645a3ac3b7b2741971e9, type: 2}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
@@ -453,3 +470,30 @@ MonoBehaviour:
   mouseSensitivitiy: 5
   moveSpeed: 10
   rollSpeed: 60
+--- !u!54 &1894720425
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1894720419}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 1
+--- !u!135 &1894720426
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1894720419}
+  m_Material: {fileID: 13400000, guid: 7e5c5980180d645a3ac3b7b2741971e9, type: 2}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
