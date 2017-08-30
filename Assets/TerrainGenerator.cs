@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class TerrainGenerator : MonoBehaviour {
-	public Color snow, tree, grass, mountain;
+	public Color snow, tree, grass, mountain, sea;
 
 
 	public int size = 17; // 2^4+1
@@ -42,6 +42,14 @@ public class TerrainGenerator : MonoBehaviour {
 
 		MeshRenderer seaRenderer = waterObject.AddComponent<MeshRenderer> ();
 		seaRenderer.material.shader = shader;
+
+
+
+		// move to center (sun rotates around 0,0,0)
+		this.gameObject.transform.localPosition = new Vector3(-unitSize*(size-1) / 2 , 0, -unitSize*(size-1) / 2);
+		waterObject.transform.localPosition = new Vector3(-unitSize*(size-1) / 2 , 0, -unitSize*(size-1) / 2);
+		sun.gameObject.transform.position = new Vector3(0 , unitSize*(size-1), 0);
+
 
 		rbody = GetComponent<Rigidbody> ();
 
@@ -91,8 +99,14 @@ public class TerrainGenerator : MonoBehaviour {
 		mTriangles [4] = 1;
 		mTriangles [5] = 3;
 
+		Color[] colors = new Color[mVertices.Length];
+		for (int i = 0; i < mVertices.Length; i++) {
+			colors [i] = sea;
+		}
+
 		mesh.vertices = mVertices;
 		mesh.triangles = mTriangles;
+		mesh.colors = colors;
 		mesh.RecalculateBounds ();
 		mesh.RecalculateNormals ();
 
@@ -191,10 +205,6 @@ public class TerrainGenerator : MonoBehaviour {
 
 				}
 			}
-
-
-
-
 		}
 
 
@@ -295,6 +305,10 @@ public class TerrainGenerator : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		MeshRenderer renderer = this.gameObject.GetComponent<MeshRenderer>();
+		renderer.material.SetColor ("_PointLightColor", this.sun.color);
+		renderer.material.SetVector ("_PointLightPosition", this.sun.GetPointLightPosition());
+
+		renderer = waterObject.GetComponent<MeshRenderer>();
 		renderer.material.SetColor ("_PointLightColor", this.sun.color);
 		renderer.material.SetVector ("_PointLightPosition", this.sun.GetPointLightPosition());
 
