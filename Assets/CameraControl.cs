@@ -6,14 +6,25 @@ using UnityEngine;
 
 public class CameraControl : MonoBehaviour {
 
+	public TerrainGenerator generator;
 	public float mouseSensitivitiy = 5.0f;
 	public float moveSpeed = 4.0f;
 	public float rollSpeed = 100.0f;
-
+	public bool turnboundary = true;
 	private Rigidbody rbody;
+	private float endsize;
+	private float height;
+	private float offset = 0.1f;
 
 	// Use this for initialization
 	void Start () {
+
+		endsize = 0.5f * (generator.size-1) * generator.unitSize;
+		height = generator.heightRange;
+		transform.position = new Vector3 (endsize,height+100,endsize);
+		transform.LookAt (new Vector3(endsize,-height,-endsize));
+
+
 		Cursor.visible = false;
 		Cursor.lockState = CursorLockMode.Locked;
 
@@ -23,7 +34,6 @@ public class CameraControl : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-
 
 		// mouse
 
@@ -65,5 +75,23 @@ public class CameraControl : MonoBehaviour {
 			transform.position += transform.right * moveSpeed * Time.deltaTime;
 			rbody.AddForce (transform.forward * moveSpeed * Time.deltaTime);
 		}
+			
+
+		if (transform.position.x >= endsize) {
+			transform.position -= new Vector3(offset,0,0);
+		}
+
+		if (transform.position.x <= -endsize) {
+			transform.position += new Vector3(offset,0,0);
+		}
+
+		if (transform.position.z >= endsize) {
+			transform.position -= new Vector3(0,0,offset);
+		}
+
+		if (transform.position.z <= -endsize) {
+			transform.position += new Vector3(0,0,offset);
+		}
+
 	}
 }

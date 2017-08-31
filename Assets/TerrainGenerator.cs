@@ -16,7 +16,7 @@ public class TerrainGenerator : MonoBehaviour {
 
 	public GameObject waterObject;
 
-	private float heightMin, heightMax, heightAvg;
+	private float heightMin, heightMax, heightAvg,seaLevel;
 
 	private float[,] heightMap;
 
@@ -79,7 +79,7 @@ public class TerrainGenerator : MonoBehaviour {
 	Mesh GenerateSea() {
 		Mesh mesh = new Mesh();
 
-		float seaLevel = heightAvg - (heightMax - heightMin) * 0.2f;
+		seaLevel = heightAvg - (heightMax - heightMin) * 0.2f;
 
 
 
@@ -291,10 +291,15 @@ public class TerrainGenerator : MonoBehaviour {
 		Color[] colors = new Color[mesh.vertices.Length];
 
 		for (int i = 0; i < colors.Length; i++) {
-			if (mesh.vertices [i].y <= heightAvg) {
+			if (mesh.vertices [i].y <= 0.8*seaLevel) {
+			} else if (mesh.vertices [i].y>seaLevel && mesh.vertices[i].y<=heightAvg) {
+				colors [i] = tree;
+			} else if (mesh.vertices[i].y > heightAvg && mesh.vertices [i].y <= 0.3*(heightMax-heightAvg)+heightAvg) {
 				colors [i] = grass;
-			}else if(mesh.vertices[i].y > heightAvg){
+			}else if(mesh.vertices [i].y > 0.3*(heightMax-heightAvg)+heightAvg && mesh.vertices [i].y <= 0.6*(heightMax-heightAvg)+heightAvg ){
 				colors [i] = mountain;
+			}else{
+				colors [i] = snow;
 			}
 		}
 

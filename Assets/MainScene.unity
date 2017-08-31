@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 184253330}
-  m_IndirectSpecularColor: {r: 0.5506665, g: 0.60877925, b: 0.68019825, a: 1}
+  m_IndirectSpecularColor: {r: 0.5506664, g: 0.608778, b: 0.6801981, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -214,8 +214,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7d73fbc3f22c4edbb463ec1e6082528, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  snow: {r: 0.7490196, g: 0.8, b: 0.8509804, a: 1}
-  tree: {r: 0.7607844, g: 0.7607844, b: 0.7607844, a: 1}
+  snow: {r: 1, g: 1, b: 1, a: 1}
+  tree: {r: 0.353, g: 0.809, b: 0.034602072, a: 1}
   grass: {r: 0.57254905, g: 0.7568628, b: 0.4431373, a: 1}
   mountain: {r: 0.22352941, g: 0.22745098, b: 0.25490198, a: 1}
   sea: {r: 0.42352942, g: 0.60784316, b: 0.78431374, a: 1}
@@ -467,9 +467,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b46edcb5f0d441c2a5312b4c0a80f4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  generator: {fileID: 559437866}
   mouseSensitivitiy: 5
   moveSpeed: 10
   rollSpeed: 60
+  turnboundary: 1
 --- !u!54 &1894720425
 Rigidbody:
   m_ObjectHideFlags: 0
