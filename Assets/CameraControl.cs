@@ -60,20 +60,19 @@ public class CameraControl : MonoBehaviour {
 
 
 		if (Input.GetKey (KeyCode.W)) {
-			transform.position += transform.forward * moveSpeed * Time.deltaTime;
-			rbody.AddForce (transform.forward * moveSpeed * Time.deltaTime);
-		}
-		if (Input.GetKey (KeyCode.S)) {
-			transform.position -= transform.forward * moveSpeed * Time.deltaTime;
-			rbody.AddForce (-(transform.forward * moveSpeed * Time.deltaTime));
-		}
-		if (Input.GetKey (KeyCode.A)) {
-			transform.position -= transform.right * moveSpeed * Time.deltaTime;
-			rbody.AddForce (-(transform.forward * moveSpeed * Time.deltaTime));
-		}
-		if (Input.GetKey (KeyCode.D)) {
-			transform.position += transform.right * moveSpeed * Time.deltaTime;
-			rbody.AddForce (transform.forward * moveSpeed * Time.deltaTime);
+//			transform.position += transform.forward * moveSpeed * Time.deltaTime;
+			rbody.AddForce (transform.forward * moveSpeed * Time.deltaTime, ForceMode.VelocityChange);
+		} else if (Input.GetKey (KeyCode.S)) {
+//			transform.position -= transform.forward * moveSpeed * Time.deltaTime;
+			rbody.AddForce (-(transform.forward * moveSpeed * Time.deltaTime), ForceMode.VelocityChange);
+		} else if (Input.GetKey (KeyCode.A)) {
+//			transform.position -= transform.right * moveSpeed * Time.deltaTime;
+			rbody.AddForce (-(transform.right * moveSpeed * Time.deltaTime), ForceMode.VelocityChange);
+		} else if (Input.GetKey (KeyCode.D)) {
+//			transform.position += transform.right * moveSpeed * Time.deltaTime;
+			rbody.AddForce (transform.right * moveSpeed * Time.deltaTime, ForceMode.VelocityChange);
+		} else {
+			rbody.velocity = Vector3.zero;
 		}
 			
 
