@@ -30,6 +30,9 @@ public class CameraControl : MonoBehaviour {
 
 		rbody = GetComponent<Rigidbody> ();
 		rbody.freezeRotation = true;
+
+        Physics.defaultContactOffset = 0.001f;
+        //Physics.minPenetrationForPenalty = 0.001f;
 	}
 	
 	// Update is called once per frame
@@ -57,40 +60,37 @@ public class CameraControl : MonoBehaviour {
 
 		transform.eulerAngles = new Vector3(pitch, yaw, roll);
 
+        rbody.velocity = Vector3.zero;
 
+        Vector3 moveVec = new Vector3(0, 0, 0);
 
-		if (Input.GetKey (KeyCode.W)) {
-//			transform.position += transform.forward * moveSpeed * Time.deltaTime;
-			rbody.AddForce (transform.forward * moveSpeed * Time.deltaTime, ForceMode.VelocityChange);
-		} else if (Input.GetKey (KeyCode.S)) {
-//			transform.position -= transform.forward * moveSpeed * Time.deltaTime;
-			rbody.AddForce (-(transform.forward * moveSpeed * Time.deltaTime), ForceMode.VelocityChange);
-		} else if (Input.GetKey (KeyCode.A)) {
-//			transform.position -= transform.right * moveSpeed * Time.deltaTime;
-			rbody.AddForce (-(transform.right * moveSpeed * Time.deltaTime), ForceMode.VelocityChange);
-		} else if (Input.GetKey (KeyCode.D)) {
-//			transform.position += transform.right * moveSpeed * Time.deltaTime;
-			rbody.AddForce (transform.right * moveSpeed * Time.deltaTime, ForceMode.VelocityChange);
-		} else {
-			rbody.velocity = Vector3.zero;
-		}
-			
+        if (Input.GetKey (KeyCode.W)) {
+            moveVec += transform.forward * moveSpeed * Time.deltaTime;
+        }
+        if (Input.GetKey (KeyCode.S)) {
+            moveVec -= transform.forward * moveSpeed * Time.deltaTime;
+        }
+        if (Input.GetKey (KeyCode.A)) {
+            moveVec -= transform.right * moveSpeed * Time.deltaTime;
+        }
+        if (Input.GetKey (KeyCode.D)) {
+            moveVec += transform.right * moveSpeed * Time.deltaTime;
+        }
 
-		if (transform.position.x >= endsize) {
-			transform.position -= new Vector3(offset,0,0);
-		}
+        rbody.MovePosition(rbody.position + moveVec);
 
-		if (transform.position.x <= -endsize) {
-			transform.position += new Vector3(offset,0,0);
-		}
+        float x = transform.position.x;
+        float y = transform.position.y;
+        float z = transform.position.z;
 
-		if (transform.position.z >= endsize) {
-			transform.position -= new Vector3(0,0,offset);
-		}
+        x = Mathf.Max(x, -endsize);
+        x = Mathf.Min(x, endsize);
+        z = Mathf.Max(z, -endsize);
+        z = Mathf.Min(z, endsize);
 
-		if (transform.position.z <= -endsize) {
-			transform.position += new Vector3(0,0,offset);
-		}
+		transform.position = new Vector3(x, y, z);
+        
+
 
 	}
 }

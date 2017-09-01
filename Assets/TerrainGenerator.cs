@@ -20,8 +20,6 @@ public class TerrainGenerator : MonoBehaviour {
 
 	private float[,] heightMap;
 
-	private Rigidbody rbody;
-
 
 	// Use this for initialization
 	void Start () {
@@ -50,39 +48,16 @@ public class TerrainGenerator : MonoBehaviour {
 		waterObject.transform.localPosition = new Vector3(-unitSize*(size-1) / 2 , 0, -unitSize*(size-1) / 2);
 		sun.gameObject.transform.position = new Vector3(0 , unitSize*(size-1), 0);
 
-
-		rbody = GetComponent<Rigidbody> ();
 		GetComponent<MeshCollider> ().sharedMesh = terrainMesh.mesh;
+        waterObject.GetComponent<MeshCollider>().sharedMesh = seaMesh.mesh;
 
-	}
+    }
 
-
-// TO-DO:
-// make sure that the terrain is surrounding by sea
-//	void applyFalloffMap() {
-//
-//		for (int x = 0; x < size; x++) {
-//			for (int z = 0; z < size; z++) {
-//				float center = (size - 1) / 2;
-//				float distanceToCenter = Mathf.Sqrt ((x - center) * (x - center) + (y - center) * (y - center));
-//
-//				// center should be 0 and the corner should be -heightRange;
-//
-//
-//
-//
-//			}
-//		}
-//
-//	}
 
 	Mesh GenerateSea() {
 		Mesh mesh = new Mesh();
 
 		seaLevel = heightAvg - (heightMax - heightMin) * 0.2f;
-
-
-
 
 		Vector3[] mVertices = new Vector3[4];
 		mVertices [0] = new Vector3 (0, seaLevel, 0);
