@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class TerrainGenerator : MonoBehaviour {
-	public Color snow, tree, grass, mountain, sea;
+	public Color snow_color, tree_color, grass_color, mountain_color, sea_color,sand_color;
 
 
 	public int size = 17; // 2^4+1
@@ -16,7 +16,7 @@ public class TerrainGenerator : MonoBehaviour {
 
 	public GameObject waterObject;
 
-	private float heightMin, heightMax, heightAvg,seaLevel;
+	private float heightMin, heightMax, heightAvg, seaLevel;
 
 	private float[,] heightMap;
 
@@ -57,8 +57,6 @@ public class TerrainGenerator : MonoBehaviour {
 	Mesh GenerateSea() {
 		Mesh mesh = new Mesh();
 
-		seaLevel = heightAvg - (heightMax - heightMin) * 0.2f;
-
 		Vector3[] mVertices = new Vector3[4];
 		mVertices [0] = new Vector3 (0, seaLevel, 0);
 		mVertices [1] = new Vector3 (0, seaLevel, unitSize*(size-1));
@@ -77,7 +75,7 @@ public class TerrainGenerator : MonoBehaviour {
 
 		Color[] colors = new Color[mVertices.Length];
 		for (int i = 0; i < mVertices.Length; i++) {
-			colors [i] = sea;
+			colors [i] = sea_color;
 		}
 
 		mesh.vertices = mVertices;
@@ -262,20 +260,47 @@ public class TerrainGenerator : MonoBehaviour {
 	void Coloring(Mesh mesh){
 
 
+        
+        seaLevel = heightAvg - (heightMax - heightMin) * 0.2f;
 
-		Color[] colors = new Color[mesh.vertices.Length];
+        double[] lvl = new double[5];
+        lvl[0] = seaLevel;
+        lvl[1] = seaLevel + (heightAvg - seaLevel) * 0.2;
+        lvl[2] = 0.1 * (heightMax - heightAvg) + heightAvg;
+        lvl[3] = 0.3 * (heightMax - heightAvg) + heightAvg;
+        lvl[4] = 0.6 * (heightMax - heightAvg) + heightAvg;
+
+        print("sea level:");
+        print(seaLevel);
+        print("avg height:");
+        print(heightAvg);
+        print("lvl 0~3");
+        print(lvl[0]);
+        print(lvl[1]);
+        print(lvl[2]);
+        print(lvl[3]);
+
+        Color[] colors = new Color[mesh.vertices.Length];
 
 		for (int i = 0; i < colors.Length; i++) {
-			if (mesh.vertices [i].y <= 0.8*seaLevel) {
-			} else if (mesh.vertices [i].y>seaLevel && mesh.vertices[i].y<=heightAvg) {
-				colors [i] = tree;
-			} else if (mesh.vertices[i].y > heightAvg && mesh.vertices [i].y <= 0.3*(heightMax-heightAvg)+heightAvg) {
-				colors [i] = grass;
-			}else if(mesh.vertices [i].y > 0.3*(heightMax-heightAvg)+heightAvg && mesh.vertices [i].y <= 0.6*(heightMax-heightAvg)+heightAvg ){
-				colors [i] = mountain;
-			}else{
-				colors [i] = snow;
-			}
+
+            float currentY = mesh.vertices[i].y;
+            currentY += Random.Range(0.5f, -0.5f);
+
+            if (currentY <= lvl[0]) {
+                colors[i] = sand_color;
+            } else if (currentY > lvl[0] && currentY <= lvl[1]) {
+                colors[i] = sand_color;
+            } else if (currentY > lvl[1] && currentY <= lvl[2]) {
+                colors[i] = tree_color;
+            } else if (currentY > lvl[2] && currentY <= lvl[3]) {
+                colors[i] = grass_color;
+            } else if (currentY > lvl[3] && currentY <= lvl[4])
+            {
+                colors[i] = mountain_color;
+            } else {
+                colors[i] = snow_color;
+            }
 		}
 
 		mesh.colors = colors;

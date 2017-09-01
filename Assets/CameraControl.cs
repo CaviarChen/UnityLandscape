@@ -21,7 +21,7 @@ public class CameraControl : MonoBehaviour {
 
 		endsize = 0.5f * (generator.size-1) * generator.unitSize;
 		height = generator.heightRange;
-		transform.position = new Vector3 (endsize,height+100,endsize);
+		transform.position = new Vector3 (endsize,height+20,endsize);
 		transform.LookAt (new Vector3(endsize,-height,-endsize));
 
 
@@ -37,6 +37,10 @@ public class CameraControl : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+
+
+        print("fps");
+        print(1/Time.deltaTime);
 
 		// mouse
 
