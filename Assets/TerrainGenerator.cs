@@ -6,14 +6,16 @@ public class TerrainGenerator : MonoBehaviour {
 	public Color snow_color, tree_color, grass_color, mountain_color, sea_color,sand_color;
 
 
-	public int size = 17; // 2^4+1
-	public float unitSize;
-	public float heightRange;
-	public float smoothness = 1.7f;
+	//number of vertices on one row of the map
+	public int size = 17; // 2^4+1 
+	public float unitSize; // length between 2 vertices
+	public float heightRange; 
+	public float smoothness = 1.7f;//how much height is going to decrease;
 
 	public Shader shader;
 	public Sun sun;
 
+	//a plane at a certain height across landscape heightmap
 	public GameObject waterObject;
 
 	private float heightMin, heightMax, heightAvg, seaLevel;
@@ -95,6 +97,7 @@ public class TerrainGenerator : MonoBehaviour {
 	// Use Diamond Square Algorithm to generate height map
 	void GenerateHeightMap() {
 		heightMap = new float[size, size];
+		//isSet stores whether a vertex has already been given a height
 		bool[,] isSet = new bool[size, size];
 
 		for (int x = 0; x < size; x++) {
@@ -105,7 +108,7 @@ public class TerrainGenerator : MonoBehaviour {
 
 		float range = heightRange;
 
-		// Corner
+		// generate height on 4 cornors of the map
 		heightMap[0,0] = Random.Range(-range, range);
 		heightMap[size-1,0] = Random.Range(-range, range);
 		heightMap[0,size-1] = Random.Range(-range, range);
@@ -125,7 +128,8 @@ public class TerrainGenerator : MonoBehaviour {
 
 
 
-			// Diamond
+			// Diamond Step:
+			//For each square in the array, set the midpoint of that square to be the average of the four corner points plus a random value.
 			for (int x = half; x < size-half; x += length) {
 				for (int z = half; z < size-half; z += length) {
 					float tmp = 0;
@@ -144,7 +148,9 @@ public class TerrainGenerator : MonoBehaviour {
 			}
 
 
-			// Square
+			// Square Step:
+			// For each diamond in the array, set the midpoint of that diamond to be the average of the four corner points plus a random value.
+			// On the boundary, set the midpoint of that diamond to be the average of the three corner points plus a random value.
 			for (int x = 0; x < size; x += half) {
 				for (int z = 0; z < size; z += half) {
 					if (!isSet[x,z]) {
@@ -257,6 +263,8 @@ public class TerrainGenerator : MonoBehaviour {
 	}
 
 
+	// Coloring heightmap based on the height value of each vertex
+	// From low to high, coloured as sand, tree, grass, tree, mountain, and snow
 	void Coloring(Mesh mesh){
 
 
