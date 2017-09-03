@@ -270,16 +270,6 @@ public class TerrainGenerator : MonoBehaviour {
         lvl[3] = 0.3 * (heightMax - heightAvg) + heightAvg;
         lvl[4] = 0.6 * (heightMax - heightAvg) + heightAvg;
 
-        print("sea level:");
-        print(seaLevel);
-        print("avg height:");
-        print(heightAvg);
-        print("lvl 0~3");
-        print(lvl[0]);
-        print(lvl[1]);
-        print(lvl[2]);
-        print(lvl[3]);
-
         Color[] colors = new Color[mesh.vertices.Length];
 
 		for (int i = 0; i < colors.Length; i++) {
@@ -310,6 +300,7 @@ public class TerrainGenerator : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
+		// Update point loght color and point light position by position and color change of sun
 		MeshRenderer renderer = this.gameObject.GetComponent<MeshRenderer>();
 		renderer.material.SetColor ("_PointLightColor", this.sun.color);
 		renderer.material.SetVector ("_PointLightPosition", this.sun.GetPointLightPosition());

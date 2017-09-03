@@ -29,10 +29,9 @@ public class CameraControl : MonoBehaviour {
 		Cursor.lockState = CursorLockMode.Locked;
 
 		rbody = GetComponent<Rigidbody> ();
-		rbody.freezeRotation = true;
+		rbody.freezeRotation = true;	// Prevent camera rotate after collision.
 
         Physics.defaultContactOffset = 0.001f;
-        //Physics.minPenetrationForPenalty = 0.001f;
 	}
 	
 	// Update is called once per frame
