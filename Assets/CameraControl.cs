@@ -19,6 +19,7 @@ public class CameraControl : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 
+        // move camera
 		endsize = 0.5f * (generator.size-1) * generator.unitSize;
 		height = generator.heightRange;
 		transform.position = new Vector3 (endsize,height+20,endsize);
@@ -38,8 +39,8 @@ public class CameraControl : MonoBehaviour {
 	void Update () {
 
 
-        print("fps");
-        print(1/Time.deltaTime);
+        //print("fps");
+        //print(1/Time.deltaTime);
 
 		// mouse
 
@@ -63,6 +64,8 @@ public class CameraControl : MonoBehaviour {
 
 		transform.eulerAngles = new Vector3(pitch, yaw, roll);
 
+
+        // prevent camera be bounced off
         rbody.velocity = Vector3.zero;
 
         Vector3 moveVec = new Vector3(0, 0, 0);
@@ -82,6 +85,7 @@ public class CameraControl : MonoBehaviour {
 
         rbody.MovePosition(rbody.position + moveVec);
 
+        // prevent camera moves outside
         float x = transform.position.x;
         float y = transform.position.y;
         float z = transform.position.z;
@@ -93,7 +97,5 @@ public class CameraControl : MonoBehaviour {
 
 		transform.position = new Vector3(x, y, z);
         
-
-
 	}
 }

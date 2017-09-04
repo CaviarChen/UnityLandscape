@@ -5,18 +5,17 @@ using UnityEngine;
 public class TerrainGenerator : MonoBehaviour {
 	public Color snow_color, tree_color, grass_color, mountain_color, sea_color,sand_color;
 
-
-	//number of vertices on one row of the map
-	public int size = 17; // 2^4+1 
+	// number of vertices on one row of the map
+	public int size = 17; // n^2+1 
 	public float unitSize; // length between 2 vertices
-	public float heightRange; 
+	public float heightRange; // height should be between -heightRange~heightRange
 	public float smoothness = 1.7f;//how much height is going to decrease;
 
 	public Shader shader;
 	public Sun sun;
 
 	//a plane at a certain height across landscape heightmap
-	public GameObject waterObject;
+	public GameObject seaObject;
 
 	private float heightMin, heightMax, heightAvg, seaLevel;
 
@@ -28,35 +27,36 @@ public class TerrainGenerator : MonoBehaviour {
 
 		GenerateHeightMap ();
 
-
-
-
+        // terrain
 		MeshFilter terrainMesh = this.gameObject.AddComponent<MeshFilter> ();
 		terrainMesh.mesh = GenerateMesh ();
 
 		MeshRenderer renderer = this.gameObject.AddComponent<MeshRenderer> ();
 		renderer.material.shader = shader;
 
-		MeshFilter seaMesh = waterObject.AddComponent<MeshFilter> ();
+        // sea
+		MeshFilter seaMesh = seaObject.AddComponent<MeshFilter> ();
 		seaMesh.mesh = GenerateSea ();
 
-		MeshRenderer seaRenderer = waterObject.AddComponent<MeshRenderer> ();
+		MeshRenderer seaRenderer = seaObject.AddComponent<MeshRenderer> ();
 		seaRenderer.material.shader = shader;
 
 
 
 		// move to center (sun rotates around 0,0,0)
 		this.gameObject.transform.localPosition = new Vector3(-unitSize*(size-1) / 2 , 0, -unitSize*(size-1) / 2);
-		waterObject.transform.localPosition = new Vector3(-unitSize*(size-1) / 2 , 0, -unitSize*(size-1) / 2);
+		seaObject.transform.localPosition = new Vector3(-unitSize*(size-1) / 2 , 0, -unitSize*(size-1) / 2);
 		sun.gameObject.transform.position = new Vector3(0 , unitSize*(size-1), 0);
 
 		GetComponent<MeshCollider> ().sharedMesh = terrainMesh.mesh;
-        waterObject.GetComponent<MeshCollider>().sharedMesh = seaMesh.mesh;
+        seaObject.GetComponent<MeshCollider>().sharedMesh = seaMesh.mesh;
 
     }
 
 
 	Mesh GenerateSea() {
+
+        // generate a flat sea square at sealevel
 		Mesh mesh = new Mesh();
 
 		Vector3[] mVertices = new Vector3[4];
@@ -89,8 +89,8 @@ public class TerrainGenerator : MonoBehaviour {
 		return mesh;
 	}
 
-
-	bool inRange(int x, int z) {
+    // return if a coordinate is in the range of height map
+    bool inRange(int x, int z) {
 		return (x >= 0) && (z >= 0) && (x < size) && (z < size);
 	}
 
@@ -133,8 +133,6 @@ public class TerrainGenerator : MonoBehaviour {
 			for (int x = half; x < size-half; x += length) {
 				for (int z = half; z < size-half; z += length) {
 					float tmp = 0;
-
-
 
 					tmp += heightMap [x + half, z + half];
 					tmp += heightMap [x + half, z - half];
@@ -191,7 +189,7 @@ public class TerrainGenerator : MonoBehaviour {
 
 	}
 
-
+    // generate terrain mesh based on height map
 	Mesh GenerateMesh() {
 		Mesh mesh = new Mesh();
 
@@ -271,6 +269,7 @@ public class TerrainGenerator : MonoBehaviour {
         
         seaLevel = heightAvg - (heightMax - heightMin) * 0.2f;
 
+        // level for different colors
         double[] lvl = new double[5];
         lvl[0] = seaLevel;
         lvl[1] = seaLevel + (heightAvg - seaLevel) * 0.2;
@@ -283,6 +282,7 @@ public class TerrainGenerator : MonoBehaviour {
 		for (int i = 0; i < colors.Length; i++) {
 
             float currentY = mesh.vertices[i].y;
+            // add some noises
             currentY += Random.Range(0.5f, -0.5f);
 
             if (currentY <= lvl[0]) {
@@ -313,7 +313,7 @@ public class TerrainGenerator : MonoBehaviour {
 		renderer.material.SetColor ("_PointLightColor", this.sun.color);
 		renderer.material.SetVector ("_PointLightPosition", this.sun.GetPointLightPosition());
 
-		renderer = waterObject.GetComponent<MeshRenderer>();
+		renderer = seaObject.GetComponent<MeshRenderer>();
 		renderer.material.SetColor ("_PointLightColor", this.sun.color);
 		renderer.material.SetVector ("_PointLightPosition", this.sun.GetPointLightPosition());
 
