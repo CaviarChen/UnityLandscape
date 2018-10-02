@@ -7,7 +7,7 @@ using UnityEngine;
 public class CameraControl : MonoBehaviour {
 
 	public TerrainGenerator generator;
-	public float mouseSensitivitiy = 5.0f;
+	public float mouseSensitivity = 5.0f;
 	public float moveSpeed = 4.0f;
 	public float rollSpeed = 100.0f;
 	public bool turnboundary = true;
@@ -44,8 +44,8 @@ public class CameraControl : MonoBehaviour {
 
 		// mouse
 
-		float yaw = mouseSensitivitiy * Input.GetAxis("Mouse X");
-		float pitch = -mouseSensitivitiy * Input.GetAxis("Mouse Y");
+		float yaw = mouseSensitivity * Input.GetAxis("Mouse X");
+		float pitch = -mouseSensitivity * Input.GetAxis("Mouse Y");
 		yaw += transform.eulerAngles.y;
 		pitch += transform.eulerAngles.x;
 
